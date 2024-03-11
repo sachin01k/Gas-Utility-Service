@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GasUtilityServiceApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(GasUtilityServiceApplication.class, args);
 	}
 
