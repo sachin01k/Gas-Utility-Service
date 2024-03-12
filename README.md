@@ -15,12 +15,12 @@ Welcome to the Gas Utility Customer Service Application! This application is des
 ## How to Use
 
 1. **Customer Side**:
-   - Visit the Gas Utility Customer Service website.
+   - Visit the Gas Utility Customer Service website through url "http://localhost:8080/" index page will be available.
    - Submit your service request by providing details and selecting the type of request.
    - Track the status of your request using the provided tracking feature.
 
 2. **Customer Support Representative Side**:
-   - Log in to the Customer Support Representative dashboard.
+   - Log in to the Customer Support Representative dashboard. URL for dashboard will be "http://localhost:8080/admin/".
    - View all service requests and manage them accordingly.
    - Logout securely when done.
 
