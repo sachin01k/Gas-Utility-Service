@@ -24,7 +24,7 @@
             <a class="nav-link" href="#requests">Customer Requests</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#logout">Logout</a>
+            <a class="nav-link" href="logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -37,9 +37,12 @@
     <!-- List of customer requests -->
     <ul class="list-group" th:each="serviceRequest : ${list}">
       <li class="list-group-item">
+      <form th:action="@{/admin/accept}" method="get">
+      	<input type="hidden" name="requestId" th:value="${serviceRequest.requestId}">
         <span class="badge badge-primary">New</span>
         <span th:text="${serviceRequest.description}"></span>
-        <button type="button" class="btn btn-primary btn-sm float-right">Accept</button>
+        <button type="submit" class="btn btn-primary btn-sm float-right">Accept</button>
+      </form>
       </li>
       <!-- Add more customer requests as needed -->
     </ul>

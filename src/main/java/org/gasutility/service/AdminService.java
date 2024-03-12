@@ -34,4 +34,15 @@ public class AdminService implements IAdminService {
     			.block();
     	
 	}
+	
+	public Boolean updateStatus(Integer requestId) {
+		WebClient webClient = WebClient.create();		
+		
+		return  webClient.put()
+    			.uri("http://localhost:8080/admin/accept-request/" + requestId)
+    			.retrieve()
+    			.bodyToMono(Boolean.class)
+    			.block();
+		
+	}
 }

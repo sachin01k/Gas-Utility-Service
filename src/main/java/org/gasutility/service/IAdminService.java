@@ -9,6 +9,6 @@ import org.gasutility.models.ServiceRequest;
 public interface IAdminService {
 	
 	public Boolean verify(AdminLogin adminLogin);
-	
+	public Boolean updateStatus(Integer requestId);
 	public List<ServiceRequest> getNewPendingRequest();
 }

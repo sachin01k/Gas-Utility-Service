@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
@@ -30,13 +34,15 @@ public class AdminController {
     }
     
     @PostMapping("/verify")
-    public String verify(@ModelAttribute("admin") AdminLogin adminLogin, Model model)
+    public String verify(@ModelAttribute("admin") AdminLogin adminLogin, Model model,HttpServletRequest request)
     {
+    	HttpSession session = request.getSession();
+    	
     	
   	 	boolean status = service.verify(adminLogin);
     	
     	if(status) {
-    		
+    		session.setAttribute("username", adminLogin.getUsername());
     		List<ServiceRequest> list = service.getNewPendingRequest();
     		model.addAttribute("list", list);
     		
@@ -44,7 +50,41 @@ public class AdminController {
     	}
     		
     	model.addAttribute("msg", "Invalid Login");
-    	return "index";
+    	return "admin";
+    }
+    
+    @GetMapping("/accept")
+    public String acceptRequest(@RequestParam("requestId") Integer requestId, Model model,HttpServletRequest request) {
+    	
+    	HttpSession session = request.getSession();
+    	String username = (String) session.getAttribute("username");
+    	if(username==null || "".equals(username)) {
+    		return "redirect:/admin/";
+    	}
+    	
+    	boolean status = service.updateStatus(requestId);
+    	
+    	if(status)
+    	{
+    		List<ServiceRequest> list = service.getNewPendingRequest();
+    		model.addAttribute("list", list);
+    		model.addAttribute("msg", "Request Accepted");
+    		return "home";
+    	}
+    	
+    	List<ServiceRequest> list = service.getNewPendingRequest();
+		model.addAttribute("list", list);
+    	model.addAttribute("msg", "Something went wrong");
+    	return "home";
+    }
+    
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+    	 HttpSession session = request.getSession();
+         session.invalidate();
+    	
+    	
+        return "redirect:/admin/"; 
     }
 
 }
