@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Support Representative Homepage</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Customer Support</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#requests">Customer Requests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Customer Requests section -->
+  <section id="requests" class="container mt-5">
+    <h2>Customer Requests</h2>
+    <!-- List of customer requests -->
+    <ul class="list-group" th:each="serviceRequest : ${list}">
+      <li class="list-group-item">
+        <span class="badge badge-primary">New</span>
+        <span th:text="${serviceRequest.description}"></span>
+        <button type="button" class="btn btn-primary btn-sm float-right">Accept</button>
+      </li>
+      <!-- Add more customer requests as needed -->
+    </ul>
+  </section>
+
+  <!-- Logout section -->
+  <section id="logout" class="container mt-5" style="display: none;">
+    <h2>Logout</h2>
+    <p>Are you sure you want to log out?</p>
+    <button type="button" class="btn btn-danger">Logout</button>
+  </section>
+
+  <!-- Bootstrap JS (Optional) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
