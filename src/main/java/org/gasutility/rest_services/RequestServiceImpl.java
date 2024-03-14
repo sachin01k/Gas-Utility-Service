@@ -35,11 +35,8 @@ public class RequestServiceImpl implements RequestService {
 		
 		sr = repo.save(sr);
 		
-		if(sr.getRequestId()!=null && sr.getType().equals("booking")) {
+		if(sr.getRequestId()!=null) {
 			return "New Booking Request Created Booking Id : " + sr.getRequestId();
-		}
-		else if(sr.getRequestId()!=null && sr.getType().equals("gas-leak")) {
-			return "Gas leak complaint registered, Registration Id : " + sr.getRequestId();
 		}		
 		
 		return "Something went Wrong";
