@@ -1,7 +1,8 @@
 package org.gasutility.controller;
 
 import org.gasutility.model.Customer;
-import org.gasutility.service.CustomerServiceImpl;
+import org.gasutility.model.GasConnectionRequest;
+import org.gasutility.model.ServiceRequest;
 import org.gasutility.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,25 @@ public class CustomerController {
     public ResponseEntity<String> register(@RequestBody Customer customer){
 
         String response = customerService.registerCustomer(customer);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("new-gas-connection")
+    public ResponseEntity<String> newConnection(@RequestBody GasConnectionRequest connection){
+
+        String response = customerService.newConnection(connection);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
+    }
+
+    @PostMapping("service-request")
+    public ResponseEntity<String> serviceRequest(@RequestBody ServiceRequest request){
+
+        String response = customerService.newServiceRequest(request);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
+    }
+
+    @GetMapping("track-request/{requestId}")
+    public ResponseEntity<ServiceRequest> trackRequest(@PathVariable("requestId") Integer requestId){
+        return customerService.trackRequest(requestId);
     }
 }
