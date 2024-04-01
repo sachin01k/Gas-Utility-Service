@@ -1,7 +1,6 @@
 package org.gasutility.repository;
 
-import org.gasutility.entities.CustomerEntity;
-import org.gasutility.model.Customer;
+import org.gasutility.model.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

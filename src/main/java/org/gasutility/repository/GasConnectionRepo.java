@@ -1,6 +1,6 @@
 package org.gasutility.repository;
 
-import org.gasutility.entities.NewGasConnection;
+import org.gasutility.model.NewGasConnection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

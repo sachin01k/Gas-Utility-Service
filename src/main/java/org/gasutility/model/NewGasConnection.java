@@ -1,4 +1,4 @@
-package org.gasutility.entities;
+package org.gasutility.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,18 +9,13 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name="REQUESTS")
-public class ServiceRequestEntity {
-
+@Table(name="GAS_CONNECTIONS")
+public class NewGasConnection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer requestId;
+    private Integer connectionId;
 
-    private String requestType;
-
-    private String description;
-
-    private String status = "pending";
+    private String address;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -30,7 +25,9 @@ public class ServiceRequestEntity {
     @Column(insertable = false)
     private LocalDate updateDate;
 
-    @ManyToOne
+    private String status = "pending";
+
+    @OneToOne
     @JoinColumn(name="customer_id")
     private CustomerEntity customer;
 

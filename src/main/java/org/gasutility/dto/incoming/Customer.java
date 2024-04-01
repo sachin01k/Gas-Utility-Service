@@ -1,11 +1,9 @@
-package org.gasutility.model;
+package org.gasutility.dto.incoming;
 
 import lombok.Data;
 
 @Data
 public class Customer {
-
-    private Integer id;
     private String name;
     private String phone;
     private String email;

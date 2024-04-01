@@ -1,4 +1,4 @@
-package org.gasutility.model;
+package org.gasutility.dto.incoming;
 
 import lombok.Data;
 

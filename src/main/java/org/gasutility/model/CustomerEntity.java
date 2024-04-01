@@ -1,4 +1,4 @@
-package org.gasutility.entities;
+package org.gasutility.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
