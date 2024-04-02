@@ -1,6 +1,7 @@
 package org.gasutility.util;
 
 import org.gasutility.model.CustomerEntity;
+import org.gasutility.model.NewGasConnection;
 import org.gasutility.model.ServiceRequestEntity;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -39,9 +40,30 @@ public class MailComposer {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(text);
-        message.setSubject("Registration Successful!");
+        message.setSubject("New Service Request Created Successfully!");
         message.setFrom("systempayroll73@gmail.com");
         message.setTo(service.getCustomer().getEmail());
+
+        return message;
+    }
+
+    public static SimpleMailMessage newGasConnectionRequestMessage(NewGasConnection connection){
+        String text = "Dear "+connection.getCustomer().getName()+",\n"
+                +"\n"
+                +"We have recieved your request for new Gas Connection. Your Gas Connection request ID is " + connection.getConnectionId() + ".\n"
+                +"Our Customer Support Representative will Communicate with you soon.\n"
+                +"You can track your Gas Connection request status using your Request Id.\n"
+                +"Within 48 hrs gas connection installation process will be completed."
+                +"We are thankful for your co-operation.\n"
+                +"Service At your Door!!\n"
+                +"\n"
+                +"Note : Do not Share your Unique Customer Identification Number to anyone.";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(text);
+        message.setSubject("New Gas Connection Request Successful!");
+        message.setFrom("systempayroll73@gmail.com");
+        message.setTo(connection.getCustomer().getEmail());
 
         return message;
     }

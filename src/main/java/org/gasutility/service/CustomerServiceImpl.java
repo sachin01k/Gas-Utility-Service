@@ -1,18 +1,17 @@
 package org.gasutility.service;
 
 
+import jakarta.validation.groups.Default;
 import org.gasutility.dto.incoming.ServiceRequest;
 import org.gasutility.dto.incoming.UpdateRequestDetails;
 import org.gasutility.dto.outgoing.CustomerDetails;
-import org.gasutility.exceptions.GasConnectionAlreadyExists;
+import org.gasutility.dto.outgoing.GasConnectionRequestDetails;
+import org.gasutility.exceptions.*;
 import org.gasutility.model.CustomerEntity;
 import org.gasutility.model.NewGasConnection;
 import org.gasutility.model.ServiceRequestEntity;
 import org.gasutility.enums.RequestType;
-import org.gasutility.exceptions.InvalidCustomerId;
-import org.gasutility.exceptions.InvalidRequestId;
 import org.gasutility.dto.incoming.Customer;
-import org.gasutility.dto.incoming.GasConnectionRequest;
 import org.gasutility.dto.outgoing.ServiceRequestDetails;
 import org.gasutility.repository.CustomerRepo;
 import org.gasutility.repository.GasConnectionRepo;
@@ -51,6 +50,19 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public String registerCustomer(Customer customerDetails) {
 
+        String phone = customerRepo.findByPhone(customerDetails.getPhone());
+        String email = customerRepo.findByEmail(customerDetails.getEmail());
+        String aadhar = customerRepo.findByAadhar(customerDetails.getAadhar());
+
+        if(phone != null)
+            throw new DuplicatePhoneNumber("Phone Number Already Exists!");
+
+        if(email != null)
+            throw new DuplicateEmail("Email Id Already Exists!");
+
+        if(aadhar != null)
+            throw new DuplicateAadharNumber("Aadhar Number Already Exists");
+
         CustomerEntity customer = new CustomerEntity();
         BeanUtils.copyProperties(customerDetails,customer);
         customer = customerRepo.save(customer);
@@ -62,27 +74,48 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public String newConnection(GasConnectionRequest connection) {
+    public String newConnection(Integer customerId) {
 
-        Optional<CustomerEntity> optional = customerRepo.findById(connection.getCustomerId());
-        CustomerEntity customer = null;
+        Optional<CustomerEntity> optional = customerRepo.findById(customerId);
 
         if(optional.isEmpty()){
             throw new InvalidCustomerId("Invalid Customer ID.. Try again!!");
         }
 
-        customer = optional.get();
+        CustomerEntity customer = optional.get();
 
         if(customer.getNewGasConnection() != null)
             throw new GasConnectionAlreadyExists("Gas Connection Already Exists! One Connection per person.");
 
         NewGasConnection gasConnection = new NewGasConnection();
-        gasConnection.setAddress(connection.getAddress());
+        gasConnection.setAddress(customer.getAddress());
         gasConnection.setCustomer(customer);
 
         gasConnection = gasRepo.save(gasConnection);
 
+        SimpleMailMessage message = MailComposer.newGasConnectionRequestMessage(gasConnection);
+        javaMailSender.send(message);
+
         return "New Gas connection request Successful! request Id : " + gasConnection.getConnectionId();
+    }
+
+    @Override
+    public ResponseEntity<GasConnectionRequestDetails> viewGasConnectionRequestDetails(Integer connectionRequestID) {
+
+        Optional<NewGasConnection> optional = gasRepo.findById(connectionRequestID);
+
+        if(optional.isEmpty())
+            throw new InvalidGasConnectionRequestId("Gas Connection request ID invalid!");
+
+        NewGasConnection connection = optional.get();
+
+        return new ResponseEntity<>(GasConnectionRequestDetails.builder()
+                .connectionId(connection.getConnectionId())
+                .address(connection.getAddress())
+                .status(String.valueOf(connection.getStatus()))
+                .requestDate(connection.getRequestDate())
+                .updateDate(connection.getUpdateDate())
+                .build(), HttpStatus.OK);
     }
 
     @Override
@@ -96,6 +129,9 @@ public class CustomerServiceImpl implements ICustomerService {
         }
 
         customer = optional.get();
+
+        if(!"COMPLAINT MAINTENANCE EMERGENCY".contains(request.getRequestType()))
+            throw new InvalidRequestType("Select Valid Request type!");
 
         ServiceRequestEntity service = new ServiceRequestEntity();
         service.setRequestType(Enum.valueOf(RequestType.class,request.getRequestType()));
@@ -229,4 +265,6 @@ public class CustomerServiceImpl implements ICustomerService {
         serviceRepo.deleteById(request.getRequestId());
         return new ResponseEntity<>("Service Request Deleted Successfully!!",HttpStatus.OK);
     }
+
+
 }

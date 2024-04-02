@@ -1,6 +1,7 @@
 package org.gasutility.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.gasutility.enums.RequestStatus;
 import org.gasutility.enums.RequestType;
@@ -21,6 +22,8 @@ public class ServiceRequestEntity {
     @Enumerated(EnumType.STRING)
     private RequestType requestType;
 
+    @Size(min = 10, max = 255, message="Description must be between 10-255 letters.")
+    @Column(nullable = false)
     private String description;
 
     @Enumerated(EnumType.STRING)

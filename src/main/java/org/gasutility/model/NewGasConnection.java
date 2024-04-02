@@ -2,6 +2,7 @@ package org.gasutility.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.gasutility.enums.RequestStatus;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +16,7 @@ public class NewGasConnection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer connectionId;
 
+    @Column(nullable = false)
     private String address;
 
     @CreationTimestamp
@@ -25,7 +27,8 @@ public class NewGasConnection {
     @Column(insertable = false)
     private LocalDate updateDate;
 
-    private String status = "pending";
+    @Enumerated(EnumType.STRING)
+    private RequestStatus status = RequestStatus.PENDING;
 
     @OneToOne
     @JoinColumn(name="customer_id")
