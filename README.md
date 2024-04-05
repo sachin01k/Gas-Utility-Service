@@ -1,33 +1,30 @@
 # Gas Utility Customer Service Application
 
-Welcome to the Gas Utility Customer Service Application! This application is designed to streamline customer service operations for gas utility companies. It allows customers to submit service requests online, track the status of their requests, and enables customer support representatives to manage requests efficiently.
+Welcome to the Gas Utility Customer Service Application! This Restful service application is designed to streamline customer service operations for gas utility companies. It allows customers to submit service requests online, track the status of their requests, and enables customer support representatives to manage requests efficiently. 
 
 ## Features
 
 ### For Customers:
+- **Customer Registration**: Customers can easily register online, providing details required for registration.
+- **New Gas Connection Request**: Registered Customer can request for new gas connection only if he/she dont have a connection already.  
 - **Submit Service Requests**: Customers can easily submit service requests online, specifying the type of request and providing additional details.
 - **Track Request Status**: Customers can track the status of their service requests, including submission time, resolution time, and current status.
-
-### For Customer Support Representatives:
-- **View and Manage Requests**: Customer support representatives can view all service requests and manage them efficiently, including accepting new requests and updating their status.
-- **Logout**: Securely log out of the system when the session is complete.
+- **Track All Service Request's Status**: Customers can track the status of their all previous service requests, including submission time, resolution time, and current status.
+- **Get Customer Details**: Customer can view his/her details provided during registration.
+- **Update Customer Details**: Customer can update his/her details provided during registration 
+- **Update Service Request Details**: Customer's can update service request details, ex: request type, description.
+- **Delete Service Request**: Customers can delete particular service request.
 
 ## How to Use
 
-1. **Customer Side**:
+**Customer Side**:
    - Visit the Gas Utility Customer Service website through url "http://localhost:8080/" index page will be available.
    - Submit your service request by providing details and selecting the type of request.
    - Track the status of your request using the provided tracking feature.
 
-2. **Customer Support Representative Side**:
-   - Log in to the Customer Support Representative dashboard. URL for dashboard will be "http://localhost:8080/admin/".
-   - View all service requests and manage them accordingly.
-   - Logout securely when done.
-
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, Bootstrap
-- **Backend**: Spring Boot (Java)
+- **Backend**: Spring Core, Spring Rest, Spring Data JPA, Spring Boot (Java).
 - **Database**: MySql
 
 ## Setup Instructions
